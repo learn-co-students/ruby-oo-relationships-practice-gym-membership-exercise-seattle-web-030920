@@ -13,22 +13,22 @@ class Lifter
   end
 
   def membership
-    Get a list of all the memberships that a specific lifter has
+    Membership.all.select{|mem| mem.lifter==self}
   end
 
   def gym
-    Get a list of all the gyms that a specific lifter has memberships to
+    self.membership.map(&:gym).uniq
   end
 
   def self.average_lift
-    Get the average lift total of all lifters
+    self.all.map(&:lift_total).reduce(0, :+)/(self.all.length.to_f)
   end
 
   def total_cost
-    Get the total cost of a specific lifters gym memberships
+    self.membership.map(&:cost).reduce(0, :+)
   end
 
   def sign_up (gym, membership_cost)
-    sign a specific lifter up for a new gym
+    Membership.new(membership_cost, gym, self)
   end
 end

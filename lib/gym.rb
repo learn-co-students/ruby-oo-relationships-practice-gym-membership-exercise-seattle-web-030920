@@ -10,12 +10,27 @@ class Gym
   def self.all
     @@all
   end
+
+  def membership
+    Membership.all.select{|mem| mem.gym==self}
+  end
+
+  def lifters
+    self.membership.map(&:lifter).uniq
+  end
+
+  def lifters_name
+    self.lifters.map(&:name)
+  end
+
+  def combined_lift
+    self.lifters.map(&:lift_total).reduce(0, :+)
+  end
 end
 
-Get a list of all memberships at a specific gym
 
-Get a list of all the lifters that have a membership to a specific gym
 
-Get a list of the names of all lifters that have a membership to that gym
 
-Get the combined lift total of every lifter has a membership to that gym
+
+
+
